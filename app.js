@@ -1,5 +1,14 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var lame = require('lame');
+var Speaker = require('speaker');
+ 
+fs.createReadStream('/home/brian/music/test.mp3')
+  .pipe(new lame.Decoder())
+  .on('format', function (format) {
+    this.pipe(new Speaker(format));
+  });
 
 var app = express();
 
