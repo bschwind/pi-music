@@ -1,0 +1,15 @@
+input[type="submit"] {
+	border: none;
+	border-radius: 2px;
+}
+
+input[type="text"] {
+	border: 1px solid lightgray;
+	border-radius: 2px;
+}
+
+input[type="password"] {
+	border: 1px solid lightgray;
+	border-radius: 2px;
+}
+
