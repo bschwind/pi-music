@@ -5,7 +5,10 @@
   "private": true,
   "dependencies": {
     "express": "4.x",
-    "body-parser": "*"
+    "body-parser": "*",
+    "fs": "*",
+    "lame": "*",
+    "speaker": "*"
   }
 }
 
