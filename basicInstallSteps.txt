@@ -1,0 +1,14 @@
+-Install SSH, configure OS, etc.
+-Install node
+-Install alsa-utils
+	-speaker-test -c 2
+	-aplay test.wav
+-Configure sound output
+	-amixer cset numid=3 <n>
+	-where n is 0=auto, 1=headphones, 2=hdmi.
+-Install lame
+-Create project structure with package.json file, listing your dependencies
+-npm install
+-throw your code in app.js or wherever
+-node app.js
+
