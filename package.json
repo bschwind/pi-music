@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "4.x",
     "body-parser": "*",
-    "fs": "*",
+    "sqlite3": "*",
     "lame": "*",
     "speaker": "*"
   }
