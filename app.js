@@ -3,12 +3,23 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var lame = require('lame');
 var Speaker = require('speaker');
- 
-fs.createReadStream('/home/brian/music/test.mp3')
-  .pipe(new lame.Decoder())
-  .on('format', function (format) {
-    this.pipe(new Speaker(format));
-  });
+var sqlite3 = require('sqlite3').verbose();
+
+var databaseName = "songs.db";
+
+var db = new sqlite3.Database(databaseName);
+var insertStatement;
+fs.exists(databaseName, function (exists) {
+	if (!exists) {
+		db.run("CREATE TABLE song (song_name TEXT, song_file BLOB)",
+			function(err) {
+				insertStatement = db.prepare("INSERT INTO song VALUES (?, ?)");
+			}
+		);
+	} else {
+		insertStatement = db.prepare("INSERT INTO song VALUES (?, ?)");
+	}
+});
 
 var app = express();
 
@@ -20,10 +31,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/login", function(req, res) {
-  res.send(req.body);
+	insertStatement.run(req.body.username, function (){
+		res.send(req.body);
+	});
 });
+
+app.get("/log", function (req, res) {
+	var things = [];
+
+	db.each("SELECT song_name FROM song",
+		function(err, row) { // Each Row
+			things.push(row);
+		},
+		function(err, n) { // Statement completion
+			res.send(things);
+		}
+	);
+})
 
 var server = app.listen(3000, function() {
-    console.log('Listening on port %d', server.address().port);
+	console.log('Listening on port %d', server.address().port);
 });
-
