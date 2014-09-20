@@ -7,20 +7,19 @@ var sqlite3 = require('sqlite3').verbose();
 var formidable = require('formidable');
 
 var databaseName = "songs.db";
-
 var db = new sqlite3.Database(databaseName);
 var insertStatement;
-fs.exists(databaseName, function (exists) {
-	if (!exists) {
-		db.run("CREATE TABLE song (song_name TEXT, song_file BLOB)",
-			function(err) {
-				insertStatement = db.prepare("INSERT INTO song VALUES (?, ?)");
-			}
-		);
-	} else {
+
+// Create our database table
+db.run("CREATE TABLE IF NOT EXISTS song (song_name TEXT, song_file BLOB)",
+	function(err) {
+		if (err) {
+			throw err;
+		}
+
 		insertStatement = db.prepare("INSERT INTO song VALUES (?, ?)");
 	}
-});
+);
 
 var app = express();
 
@@ -31,6 +30,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Endpoint to upload songs. Only handles one file at the moment
 app.post("/uploadsong", function(req, res) {
 	var form = new formidable.IncomingForm();
 
@@ -75,6 +75,7 @@ app.get("/firstsong", function (req, res) {
 	);
 })
 
+// Start the server on port 3000
 var server = app.listen(3000, function() {
 	console.log('Listening on port %d', server.address().port);
 });
