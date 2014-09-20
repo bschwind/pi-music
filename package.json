@@ -8,7 +8,8 @@
     "body-parser": "*",
     "sqlite3": "*",
     "lame": "*",
-    "speaker": "*"
+    "speaker": "*",
+    "formidable": "*"
   }
 }
 

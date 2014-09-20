@@ -9,9 +9,8 @@
 	</head>
 
 	<body>
-		<form method="POST" action="login" name="authForm">
-			<input id="username" name="username" type="text" placeholder="Username"/><br>
-			<input id="password" name="password" type="password" placeholder="Password"/><br>
+		<form method="POST" enctype="multipart/form-data" action="uploadsong" name="authForm">
+			<input id="songFile" name="song" type="file"><br>
 			<input id="submitButton" type="submit" value="Login">
 		</form>
 	</body>
