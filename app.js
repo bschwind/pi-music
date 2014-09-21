@@ -44,6 +44,13 @@ app.post("/uploadsong", function(req, res) {
 			// Insert song into the database
 			insertStatement.run(files.song.name, data, function() {
 				res.send(req.body);
+
+				// Delete the temp file
+				fs.unlink(files.song.path, function (err) {
+					if (err) {
+						throw err;
+					}
+				});
 			});
 		});
 	});
