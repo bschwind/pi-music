@@ -9,7 +9,8 @@
     "sqlite3": "*",
     "lame": "*",
     "speaker": "*",
-    "formidable": "*"
+    "formidable": "*",
+    "streamifier": "*"
   }
 }
 

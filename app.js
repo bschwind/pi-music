@@ -5,6 +5,7 @@ var lame = require('lame');
 var Speaker = require('speaker');
 var sqlite3 = require('sqlite3').verbose();
 var formidable = require('formidable');
+var streamifier = require('streamifier');
 
 var databaseName = "songs.db";
 var db = new sqlite3.Database(databaseName);
@@ -78,6 +79,22 @@ app.get("/firstsong", function (req, res) {
 		},
 		function(err, n) { // Statement completion
 
+		}
+	);
+})
+
+// Play the first song in the database as a test
+app.get("/playfirstsong", function (req, res) {
+	db.each("SELECT song_file FROM song where oid = 1",
+		function(err, row) { // Each Row
+			streamifier.createReadStream(row.song_file)
+			.pipe(new lame.Decoder())
+			.on('format', function (format) {
+				this.pipe(new Speaker(format));
+			});
+		},
+		function(err, n) { // Statement completion
+			res.send("Enjoy your one song!");
 		}
 	);
 })
